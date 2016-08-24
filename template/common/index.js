@@ -28,5 +28,9 @@ if ( DEBUG ) {
 
 robot.run()
 
+process.on( 'uncaughtException', function ( err ) {
+    Logger.error( err )
+});
+
 
 
