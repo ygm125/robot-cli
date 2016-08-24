@@ -1,6 +1,6 @@
 'use strict'
 
-const robot = require( 'robot' )
+const robot = require( 'robot-frame' )
 
 robot.setRootPath( __dirname )
 
