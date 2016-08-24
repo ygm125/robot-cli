@@ -1,5 +1,5 @@
 {
-  "name": "robot-cli",
+  "name": "robot命令行",
   "description": "robot-frame 脚手架",
   "version": "1.0.1",
   "main": "index.js",
