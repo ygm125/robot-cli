@@ -1,3 +1,5 @@
+'use strict'
+
 let publicPath = '/dist/'
 let manifest = {}
 try {
