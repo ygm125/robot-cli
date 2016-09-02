@@ -15,18 +15,7 @@ let rootPath = path.join( __dirname, '/static' ),
     srcPath = path.join( rootPath, 'src' ),
     virthPath = '/dist',
     distPath = path.join( rootPath, virthPath ),
-    ENV = getEnv()
-
-function getEnv() {
-    let env = 'dev'
-    process.argv.some(( arg ) => {
-        if ( arg.indexOf( '--env' ) > -1 ) {
-            env = arg.split( '=' )[ 1 ]
-            return true
-        }
-    })
-    return env
-}
+    ENV = process.env.NODE_ENV || 'development'
 
 function readDir( dir, map ) {
     map = map || {}
@@ -82,7 +71,7 @@ let webConf = {
     ]
 }
 
-if ( ENV === 'dev' ) {
+if ( ENV === 'development' ) {
     entryMap[ 'vendor' ] = [ 'koa-webpack-middleware/node_modules/webpack-hot-middleware/client?reload=1', entryMap[ 'vendor' ] ]
     webConf.output.filename = 'page/[name].js'
 
@@ -93,7 +82,7 @@ if ( ENV === 'dev' ) {
     webConf.plugins.push( new webpack.HotModuleReplacementPlugin() )
     webConf.plugins.push( new webpack.NoErrorsPlugin() )
 
-} else if ( ENV === 'pro' ) {
+} else if ( ENV === 'production' ) {
     webConf.output.filename = 'page/[name].[chunkhash:5].js'
 
     webConf.module.loaders.push( {

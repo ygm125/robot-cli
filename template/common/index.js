@@ -4,8 +4,7 @@ global.ROOT_PATH = __dirname
 
 const robot = require( 'robot-frame' )
 
-robot.preAppLoad( function () {
-
+robot.beforeAppLoad(() => {
     if ( DEBUG ) {
         // 静态资源热更新
         require( 'babel-polyfill/node_modules/regenerator-runtime/runtime' )
