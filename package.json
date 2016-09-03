@@ -1,10 +1,11 @@
 {
   "name": "robot-cli",
   "description": "robot-frame 脚手架",
-  "version": "1.1.9",
+  "version": "1.2.2",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
+    "cfonts": "^1.0.2",
     "shelljs": "^0.7.3",
     "yargs": "^5.0.0"
   },

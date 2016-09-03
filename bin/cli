@@ -3,24 +3,76 @@
 require( 'shelljs/global' )
 
 var path = require( 'path' )
-var argv = require( 'yargs' ).argv
 
+var argv = require( 'yargs' )
+    .usage( 'Usage: $0 [options] [args]' )
+    .example( '$0 -c common -d ./', '设置项目模板使用common，生成到当前目录' )
+    .option( 'd', {
+        describe: '指定 path 为生成到的目录'
+    })
+    .option( 'c', {
+        describe: '可选参数 common、vue、react，指定生成的模板类型'
+    })
+    .option( 'u', {
+        describe: "参数为tmpl，更新模板"
+    })
+    .option( 'v', {
+        describe: '获取当前版本'
+    })
+    .help( 'h' ).argv
 
-var tempdir = path.resolve( __dirname, '../template' )
-var prodir = path.resolve( argv.d || './' )
+var syncDir = path.resolve( __dirname, '../.tmpl' )
 
-mkdir( '-p', prodir )
+if ( argv.v ) {
+    var CFonts = require( 'cfonts' )
+    var pkg = require( '../package.json' )
 
-switch ( argv.c ) {
-    case 'vue':
-        genVue()
-    case 'rudex':
-        genRudex()
-    case 'common':
-        genCommon()
-        break
-    default:
-        genCommon()
+    CFonts.say( `Version ${pkg.version}`, {
+        font: 'console',
+        colors: [ 'yellow', 'cyan' ]
+    })
+
+    CFonts.say( 'Robot', {
+        font: 'simple3d',
+        colors: [ 'yellow', 'cyan' ]
+    })
+    
+} else if ( argv.u ) {
+    console.log( 'fetch start...' )
+
+    if ( !test( '-d', syncDir ) ) {
+        mkdir( '-p', syncDir )
+        exec( `cd ${syncDir} && git clone https://github.com/ygm125/robot-cli.git` ).stdout
+    } else {
+        exec( `cd ${syncDir} && git pull` ).stdout
+    }
+    
+    console.log( 'fetch end' )
+
+} else if ( argv.d ) {
+
+    if ( !test( '-d', syncDir ) ) {
+        console.log( '请先执行 -u 同步模板' );
+        return
+    }
+
+    var tempdir = path.resolve( syncDir, 'robot-cli/template' )
+    var prodir = path.resolve( argv.d || './' )
+
+    mkdir( '-p', prodir )
+    console.log( '创建目录 ' + prodir + ' ok' )
+
+    switch ( argv.c ) {
+        case 'vue':
+            genVue()
+        case 'rudex':
+            genRudex()
+        case 'common':
+            genCommon()
+            break
+        default:
+            genCommon()
+    }
 }
 
 function genCommon() {
@@ -30,8 +82,10 @@ function genCommon() {
 
 function genVue() {
     cp( '-R', `${tempdir}/vue/*`, prodir )
+    console.log( 'gen dir ok , at ' + prodir )
 }
 
 function genRudex() {
     cp( '-R', `${tempdir}/rudex/*`, prodir )
+    console.log( 'gen dir ok , at ' + prodir )
 }
