@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production ./node_modules/.bin/webpack"
   },
   "dependencies": {
-    "robot-frame": "^1.0.8"
+    "robot-frame": "^1.1.2"
   },
   "devDependencies": {
     "babel-core": "^6.13.2",
