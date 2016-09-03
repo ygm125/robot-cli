@@ -7,6 +7,6 @@ robot-frame 脚手架工具
 
 `npm install -g robot-cli`
 
-使用
+如何使用
 
-`robot -c xxx -d xxx`
+`robot -h`
